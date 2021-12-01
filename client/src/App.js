@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import BookList from "./components/BookList";
-import { ApolloClient, ApolloProvider } from "@apollo/client";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
+  cache: new InMemoryCache()
 });
 
 class App extends Component {
