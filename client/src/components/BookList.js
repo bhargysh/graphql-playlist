@@ -16,7 +16,7 @@ function Books() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  return data.books.map(({ name, id }) => <li>{name}</li>);
+  return data.books.map(({ name, id }) => <li key={id}>{name}</li>);
 }
 
 class BookList extends Component {
