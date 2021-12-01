@@ -5,6 +5,7 @@ const {
   GraphQLSchema,
   GraphQLID,
   GraphQLInt,
+  GraphQLList
 } = graphql;
 const _ = require("lodash");
 
@@ -13,6 +14,8 @@ const dummyBookData = [
   { name: "Intro to MLMs", genre: "Non-Fiction", id: "2", authorId: "3" },
   { name: "The Alchemist", genre: "Fiction", id: "3", authorId: "4" },
   { name: "Dune", genre: "Sci-Fi", id: "4", authorId: "2" },
+  { name: "Children of Dune", genre: "Sci-Fi", id: "5", authorId: "2" },
+  { name: "Intro to Economics", genre: "Non-Fiction", id: "6", authorId: "3" },
 ];
 
 const dummyAuthorData = [
@@ -24,14 +27,13 @@ const dummyAuthorData = [
 
 const BookType = new GraphQLObjectType({
   name: "Book",
-  fields: () => ({
+  fields: () => ({ // we need this to be a function because it only gets evaluated when the whole file is complied
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     genre: { type: GraphQLString },
     author: {
         type: AuthorType,
         resolve(parent, args) {
-            console.log(parent);
             return _.find(dummyAuthorData, { id: parent.authorId })
         }
     }
@@ -44,6 +46,12 @@ const AuthorType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
+    books: {
+        type: new GraphQLList(BookType),
+        resolve(parent, args){
+            return _.filter(dummyBookData, { authorId: parent.id })
+        }
+    }
   }),
 });
 
