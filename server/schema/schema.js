@@ -28,6 +28,13 @@ const BookType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     genre: { type: GraphQLString },
+    author: {
+        type: AuthorType,
+        resolve(parent, args) {
+            console.log(parent);
+            return _.find(dummyAuthorData, { id: parent.authorId })
+        }
+    }
   }),
 });
 
