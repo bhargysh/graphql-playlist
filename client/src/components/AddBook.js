@@ -6,8 +6,8 @@ const AddBooks = () => {
 
   const Authors = () => {
     const { loading, error, data } = useQuery(getAuthorsQuery);
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error, uh oh!</p>;
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error, uh oh!</div>;
 
     return data.authors.map(({ name, id }) => (
       <option key={id} value={id}>
@@ -23,8 +23,8 @@ const AddBooks = () => {
   const [addBookMutationFunction, { loading, error }] = useMutation(addBookMutation);
 
   const onSubmit = (event) => {
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error, uh oh!</p>;
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error, uh oh!</div>;
 
     addBookMutationFunction({
       variables: { name: bookName, genre: genre, authorId: authorId },
