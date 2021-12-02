@@ -1,5 +1,7 @@
 # graphql-playlist
 
+![](assets/reading-list-ui.png)
+
 ## To run the graphql server
 
 ```bash
