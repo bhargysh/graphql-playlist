@@ -1,8 +1,9 @@
 import { React, useState } from "react";
-import { useQuery } from "@apollo/client";
-import { getAuthorsQuery } from "../queries/queries";
+import { useQuery, useMutation } from "@apollo/client";
+import { getAuthorsQuery, addBookMutation } from "../queries/queries";
 
 const AddBooks = () => {
+
   const Authors = () => {
     const { loading, error, data } = useQuery(getAuthorsQuery);
     if (loading) return <p>Loading...</p>;
@@ -15,17 +16,18 @@ const AddBooks = () => {
     ));
   };
 
-  const [book, setBookName] = useState("");
+  const [bookName, setBookName] = useState("");
   const [genre, setGenre] = useState("");
-  const [author, setAuthor] = useState("");
+  const [authorId, setAuthor] = useState("");
+
+  const [addBookMutationFunction, { data, loading, error }] = useMutation(addBookMutation);
 
   const onSubmit = (event) => {
-    const formDetails = {
-        'Book Name': book,
-        'Genre': genre,
-        'Author': author,
-    }
-    console.log(formDetails);
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error, uh oh!</p>;
+
+    addBookMutationFunction({ variables: { name: bookName, genre: genre, authorId: authorId } })
+
     event.preventDefault()
   };
 
@@ -34,7 +36,7 @@ const AddBooks = () => {
       <form id="add-book" onSubmit={onSubmit}>
         <div className="book-name-field">
           <label>Book name:</label>
-          <input type="text" value={book} onChange={(event) => setBookName(event.target.value)} />
+          <input type="text" value={bookName} onChange={(event) => setBookName(event.target.value)} />
         </div>
 
         <div className="genre-field">
@@ -44,7 +46,7 @@ const AddBooks = () => {
 
         <div className="author-field">
           <label>Author:</label>
-          <select value={author} onChange={(event) => setAuthor(event.target.value)}>
+          <select value={authorId} onChange={(event) => setAuthor(event.target.value)}>
             <option>Select author</option>
             <Authors />
           </select>
