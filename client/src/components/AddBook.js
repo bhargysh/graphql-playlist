@@ -1,9 +1,12 @@
 import { React, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { getAuthorsQuery, addBookMutation, getBooksQuery } from "../queries/queries";
+import {
+  getAuthorsQuery,
+  addBookMutation,
+  getBooksQuery,
+} from "../queries/queries";
 
 const AddBooks = () => {
-
   const Authors = () => {
     const { loading, error, data } = useQuery(getAuthorsQuery);
     if (loading) return <div>Loading...</div>;
@@ -20,7 +23,8 @@ const AddBooks = () => {
   const [genre, setGenre] = useState("");
   const [authorId, setAuthor] = useState("");
 
-  const [addBookMutationFunction, { loading, error }] = useMutation(addBookMutation);
+  const [addBookMutationFunction, { loading, error }] =
+    useMutation(addBookMutation);
 
   const onSubmit = (event) => {
     if (loading) return <div>Loading...</div>;
@@ -28,10 +32,10 @@ const AddBooks = () => {
 
     addBookMutationFunction({
       variables: { name: bookName, genre: genre, authorId: authorId },
-      refetchQueries: [{ query: getBooksQuery }]
-    })
+      refetchQueries: [{ query: getBooksQuery }],
+    });
 
-    event.preventDefault()
+    event.preventDefault();
   };
 
   return (
@@ -39,19 +43,30 @@ const AddBooks = () => {
       <form id="add-book" onSubmit={onSubmit}>
         <div className="book-name-field">
           <label>Book name:</label>
-          <input type="text" value={bookName} onChange={(event) => setBookName(event.target.value)} />
+          <input
+            type="text"
+            value={bookName}
+            onChange={(event) => setBookName(event.target.value)}
+          />
         </div>
 
         <div className="genre-field">
           <label>Genre:</label>
-          <input type="text" value={genre} onChange={(event) => setGenre(event.target.value)}/>
+          <input
+            type="text"
+            value={genre}
+            onChange={(event) => setGenre(event.target.value)}
+          />
         </div>
 
         <div className="author-field">
           <label>Author:</label>
-          <select value={authorId} onChange={(event) => setAuthor(event.target.value)}>
-            <option>Select author</option>
-            <Authors />
+          <select
+            value={authorId}
+            onChange={(event) => setAuthor(event.target.value)}
+          >
+          <option>Select author</option>
+          <Authors />
           </select>
         </div>
 

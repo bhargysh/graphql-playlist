@@ -13,9 +13,9 @@ const BookList = () => {
   return (
     <div>
       <ul id="book-list">
-        {data.books.map(({ name, id }) => (
-          <button onClick={(e) => setselectedBookId(id)}>
-            <li key={id}>{name}</li>
+        {data.books.map(({ id, name }) => (
+          <button key={id} onClick={(e) => setselectedBookId(id)}>
+            <p key={id}>{name}</p>
           </button>
         ))}
       </ul>

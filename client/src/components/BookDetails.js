@@ -20,7 +20,6 @@ const BookDetails = ({ bookId }) => {
         <h3>All books by this author:</h3>
         <ul className="other-books">
           {book.author.books.map((book) => {
-            console.log("book", book);
             return <li key={book.id}>{book.name}</li>;
           })}
         </ul>
