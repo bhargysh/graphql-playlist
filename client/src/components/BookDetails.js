@@ -1,36 +1,34 @@
-import { React } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { getABookQuery } from "../queries/queries";
 
-const BookDetails = (bookId) => {
+const BookDetails = ({ bookId }) => {
   const { loading, error, data } = useQuery(getABookQuery, {
     variables: { id: bookId },
+    errorPolicy: "all",
   });
+
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error, in book details!</div>;
-
-  const displayBookDetails = (bookData) => {
-    console.log('Book data', bookData);
-    if(bookData) {
-      return (
-        <div>
-          <h2>{bookData.name}</h2>
-          <p>{bookData.genre}</p>
-          <p>{bookData.author.name}</p>
-          <h3>All books by this author:</h3>
-          <ul className="other-books">
-            {bookData.author.books.map((item) => {
-              return <li key={item.id}>{item.name}</li>;
-            })}
-          </ul>
-        </div>
-      );
-    } else {
-        return (<div>No book selected...</div>);
-    }
-  };
-
-  return <div id="book-details">{displayBookDetails(data)}</div>;
+  if (error) return <div>{error.networkError.message}</div>;
+  if (data) {
+    const { book } = data;
+    return (
+      <div id="book-details">
+        <h2>{book.name}</h2>
+        <p>{book.genre}</p>
+        <p>{book.author.name}</p>
+        <h3>All books by this author:</h3>
+        <ul className="other-books">
+          {book.author.books.map((book) => {
+            console.log("book", book);
+            return <li key={book.id}>{book.name}</li>;
+          })}
+        </ul>
+      </div>
+    );
+  } else {
+    return <div>No book selected...</div>;
+  }
 };
 
 export default BookDetails;

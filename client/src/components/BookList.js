@@ -4,8 +4,8 @@ import { getBooksQuery } from "../queries/queries";
 import BookDetails from "./BookDetails";
 
 const BookList = () => {
+  const [selectedBookId, setselectedBookId] = useState(undefined);
   const { loading, error, data } = useQuery(getBooksQuery);
-  const [selectedBookId, setselectedBookId] = useState("");
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error :(</div>;
@@ -14,12 +14,12 @@ const BookList = () => {
     <div>
       <ul id="book-list">
         {data.books.map(({ name, id }) => (
-          <li key={id} onClick={(e) => setselectedBookId(id)}>
-            {name}
-          </li>
+          <button onClick={(e) => setselectedBookId(id)}>
+            <li key={id}>{name}</li>
+          </button>
         ))}
       </ul>
-      <BookDetails bookId={selectedBookId} />
+      {selectedBookId && <BookDetails bookId={selectedBookId} />}
     </div>
   );
 };
