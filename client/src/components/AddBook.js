@@ -41,7 +41,7 @@ const AddBooks = () => {
   return (
     <div>
       <form id="add-book" onSubmit={onSubmit}>
-        <div className="book-name-field">
+        <div className="field">
           <label>Book name:</label>
           <input
             type="text"
@@ -50,7 +50,7 @@ const AddBooks = () => {
           />
         </div>
 
-        <div className="genre-field">
+        <div className="field">
           <label>Genre:</label>
           <input
             type="text"
@@ -59,7 +59,7 @@ const AddBooks = () => {
           />
         </div>
 
-        <div className="author-field">
+        <div className="field">
           <label>Author:</label>
           <select
             value={authorId}
